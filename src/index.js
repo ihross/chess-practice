@@ -10,7 +10,6 @@ function Square(props) {
     );
 }
 
-
 class Board extends React.Component {
     renderSquare(i) {
         return (
@@ -52,14 +51,15 @@ class Game extends React.Component {
             history: [{
                 squares: Array(9).fill(null)
             }],
-            xIsNext: true,
+            stepNumber: 0,
+            xIsNext: true
         }
     }
 
     handleClick(i) {
         const history = this.state.history;
         const current = history[history.length -1];
-        const squares = current.state.squares.slice();
+        const squares = current.squares.slice();
         if (calculateWinner(squares) || squares[i]) {
             return;
         }
@@ -69,6 +69,13 @@ class Game extends React.Component {
                 squares: squares,
             }]),
             xIsNext: !this.state.xIsNext,
+        });
+    }
+
+    jumpTo(step) {
+        this.setState({
+            stepNumber: step,
+            xIsNext: (step % 2) === 0
         });
     }
     
